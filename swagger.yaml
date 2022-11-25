@@ -1,41 +1,61 @@
 swagger: "2.0"
 info:
+  title: Loomade varjupaik
   version: 1.0.0
-  title: REST API
   description: ""
-host: localhost:3000
+host: "localhost:3000"
 basePath: /
 schemes:
   - http
 paths:
   /reservedpets:
     post:
-      description: ""
+      produces:
+        - application/json
       parameters:
         - name: body
-          in: body
           schema:
             type: object
             properties:
               sessionId:
                 example: any
+          in: body
       responses:
         "200":
           description: OK
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json:
+              id: 1
+              name: Nurr
+              sex: male
+              species: cat
+              img: "http://localhost:3000/public/img/cat-1.jpg"
+              bookedBy: ""
         "400":
           description: Bad Request
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'Insufficient permissions' }"
         "401":
           description: Unauthorized
-  /pets/edit/{id}:
-    patch:
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'Something went wrong! Pet not found' }"
       description: ""
+  "/pets/edit/{id}":
+    patch:
+      produces:
+        - application/json
       parameters:
         - name: id
           in: path
           required: true
           type: string
         - name: body
-          in: body
           schema:
             type: object
             properties:
@@ -51,67 +71,77 @@ paths:
                 example: any
               sessionId:
                 example: any
+          in: body
       responses:
         "200":
           description: OK
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json:
+              id: 1
+              name: Nurr
+              sex: male
+              species: cat
+              img: "http://localhost:3000/public/img/cat-1.jpg"
+              bookedBy: ""
         "400":
           description: Bad Request
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'SessionId does not have an user associated with it' }"
         "401":
           description: Unauthorized
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'Invalid sessionId' }"
         "404":
           description: Not Found
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'Something went wrong! Pet not found' }"
+      description: ""
   /pets:
     post:
-      description: ""
+      produces:
+        - application/json
       parameters:
         - name: body
-          in: body
           schema:
-            type: object
-            properties:
-              name:
-                example: any
-              sex:
-                example: any
-              species:
-                example: any
-              img:
-                example: any
-              sessionId:
-                example: any
-      responses:
-        "200":
-          description: OK
-        "400":
-          description: Bad Request
-        "401":
-          description: Unauthorized
-  /pets/{id}:
-    delete:
-      description: ""
-      parameters:
-        - name: id
-          in: path
+            $ref: "#/definitions/pets"
+          in: body
           required: true
-          type: string
-        - name: body
-          in: body
-          schema:
-            type: object
-            properties:
-              sessionId:
-                example: any
       responses:
         "200":
           description: OK
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json:
+              id: 1
+              name: Nurr
+              sex: male
+              species: cat
+              img: "http://localhost:3000/public/img/cat-1.jpg"
+              bookedBy: ""
         "400":
           description: Bad Request
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'You have to login' }"
         "401":
           description: Unauthorized
-        "404":
-          description: Not Found
+          examples:
+            application/json: "{ error: 'Invalid sessionId' }"
+      description: ""
+  "/pets/{id}":
     get:
-      description: ""
+      produces:
+        - application/json
       parameters:
         - name: id
           in: path
@@ -120,17 +150,69 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json:
+              id: 1
+              name: Nurr
+              sex: male
+              species: cat
+              img: "http://localhost:3000/public/img/cat-1.jpg"
+              bookedBy: ""
         "404":
           description: Not Found
-    patch:
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'Something went wrong! Pet not found' }"
       description: ""
+    delete:
+      produces:
+        - application/json
       parameters:
         - name: id
           in: path
           required: true
           type: string
         - name: body
+          schema:
+            type: object
+            properties:
+              sessionId:
+                example: any
           in: body
+      responses:
+        "200":
+          description: Return status code 200 with no body
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'Insufficient permissions' }"
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'Invalid sessionId' }"
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'Something went wrong! Pet not found' "
+      description: ""
+    patch:
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: body
           schema:
             type: object
             properties:
@@ -138,24 +220,54 @@ paths:
                 example: any
               sessionId:
                 example: any
+          in: body
       responses:
         "200":
           description: OK
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json:
+              id: 1
+              name: Nurr
+              sex: male
+              species: cat
+              img: "http://localhost:3000/public/img/cat-1.jpg"
+              bookedBy: ""
         "400":
           description: Bad Request
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json:
+              message: >-
+                requests body does not contain required fields or required fields are invalid
+                format
+      description: ""
   /pets/available:
     get:
-      description: ""
-      parameters: []
+      produces:
+        - application/json
       responses:
         "200":
           description: OK
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json:
+              id: 1
+              name: Nurr
+              sex: male
+              species: cat
+              img: "http://localhost:3000/public/img/cat-1.jpg"
+              bookedBy: ""
+      description: ""
   /users:
     post:
-      description: ""
+      produces:
+        - application/json
       parameters:
         - name: body
-          in: body
           schema:
             type: object
             properties:
@@ -163,19 +275,29 @@ paths:
                 example: any
               password:
                 example: any
+          in: body
       responses:
         "201":
           description: Created
         "400":
           description: Bad Request
+          schema:
+            $ref: "#/definitions/users"
+          examples:
+            application/json: "{ error: 'One or all params are missing' }"
         "409":
           description: Conflict
+          schema:
+            $ref: "#/definitions/users"
+          examples:
+            application/json: "{ error: 'Conflict: The user already exists. ' }"
+      description: ""
   /sessions:
     post:
-      description: ""
+      produces:
+        - application/json
       parameters:
         - name: body
-          in: body
           schema:
             type: object
             properties:
@@ -183,23 +305,82 @@ paths:
                 example: any
               password:
                 example: any
+          in: body
       responses:
         "201":
           description: Created
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ sessionId: sessions.length }"
         "400":
           description: Bad Request
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'One or all params are missing' }"
         "401":
           description: Unauthorized
-    delete:
+          schema:
+            $ref: "#/definitions/pets"
+          examples:
+            application/json: "{ error: 'Unauthorized: username or password is incorrect' }"
       description: ""
+    delete:
       parameters:
         - name: body
-          in: body
           schema:
             type: object
             properties:
               sessionId:
                 example: any
+          in: body
       responses:
         "200":
           description: OK
+      description: ""
+definitions:
+  users:
+    title: Root Type for users
+    description: Login creadentials
+    type: object
+    properties:
+      id:
+        format: int32
+        type: integer
+      username:
+        type: string
+      password:
+        type: string
+      isAdmin:
+        type: string
+    example:
+      id: 1
+      username: Admin
+      password: Password
+      isAdmin: "true"
+  pets:
+    title: Root Type for pets
+    description: reserved pets
+    type: object
+    properties:
+      id:
+        format: int32
+        type: integer
+      name:
+        type: string
+      sex:
+        type: string
+      species:
+        type: string
+      img:
+        type: string
+      bookedBy:
+        type: string
+    example:
+      id: 1
+      name: Nurr
+      sex: male
+      species: cat
+      img: "http://localhost:3000/public/img/cat-1.jpg"
+      bookedBy: ""
